@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OBF SOO — Create Script</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="center">
+  <h1 class="brand">OBF<span> SOO</span></h1>
+  <div class="card">
+    <h2 class="title">Create Protected Script</h2>
+    <p class="subtitle">Upload → Obfuscate → Share</p>
+    <div class="field">
+      <label class="label">// SCRIPT NAME</label>
+      <input id="name" type="text" placeholder="My Script" autocomplete="off">
+    </div>
+    <label class="label">// RAW SOURCE</label>
+    <textarea id="source" style="width:100%; height:150px; background:#04050a; border:1px solid #152233; border-radius:8px; padding:10px; color:#d4d8e3; font-family:inherit; margin-bottom:14px; resize:vertical;" spellcheck="false" placeholder="Paste your Luau script here..."></textarea>
+    <div class="field">
+      <label class="label">// PASSWORD</label>
+      <input id="password" type="password" placeholder="Min 6 characters" autocomplete="new-password">
+    </div>
+    <button class="unlock" id="submit">Create</button>
+    <div class="err" id="err"></div>
+    <div class="result hidden" id="result" style="display:none; background:#04050a; border:1px solid #152233; border-radius:8px; padding:14px; margin-top:14px;">
+      <label>// VIEW URL</label>
+      <div id="view-url" style="color:#00e5ff; font-size:12px; word-break:break-all; margin-bottom:10px;"></div>
+      <label>// LOADER URL</label>
+      <div id="loader-url-res" style="color:#00e5ff; font-size:12px; word-break:break-all;"></div>
+    </div>
+  </div>
+</div>
+<script>
+document.getElementById('submit').addEventListener('click', async () => {
+  const name = document.getElementById('name').value || 'Untitled';
+  const source = document.getElementById('source').value;
+  const password = document.getElementById('password').value;
+  const err = document.getElementById('err');
+  const btn = document.getElementById('submit');
+  
+  if (!source || password.length < 6) return err.textContent = 'Source and password (min 6 chars) required';
+  
+  btn.disabled = true; btn.textContent = 'Obfuscating...';
+  try {
+    const res = await fetch('/api/scripts', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, source, password })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById('view-url').textContent = data.view_url;
+      document.getElementById('loader-url-res').textContent = data.loader_url;
+      document.getElementById('result').style.display = 'block';
+      btn.textContent = 'Done';
+    } else {
+      err.textContent = data.error || 'Error';
+      btn.disabled = false; btn.textContent = 'Create';
+    }
+  } catch (e) {
+    err.textContent = 'Network error';
+    btn.disabled = false; btn.textContent = 'Create';
+  }
+});
+</script>
+</body>
+</html>
