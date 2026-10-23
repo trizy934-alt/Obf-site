@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login — OBF SOO</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase-config.js"></script>
+</head>
+<body>
+  <div class="center">
+    <h1 class="brand">OBF<span> SOO</span></h1>
+    <div class="card">
+      <h2 class="title" id="auth-title">Welcome Back</h2>
+      <p class="subtitle" id="auth-subtitle">Sign in to manage your scripts</p>
+      <div class="field">
+        <label class="label">// EMAIL</label>
+        <input id="email" type="email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label class="label">// PASSWORD</label>
+        <input id="password" type="password" placeholder="••••••••">
+      </div>
+      <button class="unlock" id="submit-btn">Sign In</button>
+      <div class="err" id="err"></div>
+      <div style="text-align: center; margin-top: 16px;">
+        <a href="#" id="toggle-auth" style="color: #00e5ff; font-size: 12px; text-decoration: none;">Don't have an account? Sign Up</a>
+      </div>
+    </div>
+  </div>
+  <script src="/js/auth.js"></script>
+</body>
+</html>
