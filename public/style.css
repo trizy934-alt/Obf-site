@@ -1,0 +1,118 @@
+:root {
+  --bg: #050508;
+  --grid: #0d0d14;
+  --card: #08080f;
+  --border: #152233;
+  --text: #d4d8e3;
+  --muted: #556070;
+  --cyan: #00e5ff;
+  --pink: #ff3d9a;
+  --input-bg: #04050a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Courier New", ui-monospace, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+.center {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  padding: 24px;
+}
+.brand {
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: var(--cyan);
+  text-shadow: 0 0 12px rgba(0,229,255,0.4);
+}
+.brand span { color: var(--pink); text-shadow: 0 0 12px rgba(255,61,154,0.4); }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 24px 24px;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,229,255,0.05), 0 0 80px rgba(255,61,154,0.03);
+}
+.card::before, .card::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--cyan);
+  opacity: 0.7;
+}
+.card::before { top: -1px; left: -1px; border-right: none; border-bottom: none; border-top-left-radius: 12px; }
+.card::after  { bottom: -1px; right: -1px; border-left: none; border-top: none; border-bottom-right-radius: 12px; }
+.lock { text-align: center; font-size: 44px; margin-bottom: 12px; filter: drop-shadow(0 0 12px rgba(0,229,255,0.5)); }
+.title { text-align: center; font-size: 22px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; background: linear-gradient(90deg, var(--cyan), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.subtitle { text-align: center; font-size: 12px; color: var(--muted); letter-spacing: 2px; margin-bottom: 24px; text-transform: uppercase; }
+.label { display: block; font-size: 11px; color: var(--cyan); letter-spacing: 2px; margin-bottom: 8px; opacity: 0.85; }
+.pw-wrap { position: relative; margin-bottom: 16px; }
+input[type=password], input[type=text], input[type=email] {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  margin-bottom: 12px;
+}
+input:focus { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(0,229,255,0.12); }
+button.unlock {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--cyan), #7aa6ff, var(--pink));
+  color: #05050a;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.05s;
+  margin-top: 10px;
+}
+button.unlock:hover { filter: brightness(1.1); }
+button.unlock:active { transform: translateY(1px); }
+button.unlock:disabled { opacity: 0.5; cursor: wait; }
+.back { display: block; text-align: center; margin-top: 18px; font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 1.5px; }
+.back:hover { color: var(--text); }
+.hidden { display: none !important; }
+.info { background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 18px; }
+.info p { font-size: 12px; color: var(--muted); line-height: 1.7; text-align: center; }
+.loader-box { margin-bottom: 8px; }
+.loader-url { display: flex; gap: 8px; align-items: stretch; }
+.loader-url code { flex: 1; background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--cyan); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: inherit; display: flex; align-items: center; }
+.copy { background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 0 14px; font-family: inherit; font-size: 11px; letter-spacing: 1px; cursor: pointer; }
+.copy:hover { border-color: var(--cyan); color: var(--cyan); }
+.err { color: var(--pink); font-size: 12px; text-align: center; margin-top: 10px; min-height: 16px; }
