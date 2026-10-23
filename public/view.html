@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protected Script — OBF SOO</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="center">
+  <h1 class="brand">OBF<span> SOO</span></h1>
+  <div class="card" id="gate">
+    <div class="lock">🔒</div>
+    <h2 class="title">Protected Script</h2>
+    <p class="subtitle">Enter password to access</p>
+    <label class="label">// PASSWORD</label>
+    <div class="pw-wrap">
+      <input id="pw" type="password" placeholder="Enter script password..." autocomplete="off">
+    </div>
+    <button class="unlock" id="unlock">Unlock Script</button>
+    <div class="err" id="err"></div>
+  </div>
+  <div class="card" id="protected" style="display:none;">
+    <div class="lock">🛡</div>
+    <h2 class="title">OBF SOO</h2>
+    <p class="subtitle">This script is protected</p>
+    <div class="info">
+      <p>Source code is encrypted and executed at runtime.<br>Raw script is never exposed.</p>
+    </div>
+    <div class="loader-box">
+      <label class="label">// LOADER</label>
+      <div class="loader-url">
+        <code id="loader-url"></code>
+        <button class="copy" id="copy">COPY</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const slug = location.pathname.split('/').filter(Boolean).pop();
+document.getElementById('unlock').addEventListener('click', async () => {
+  const password = document.getElementById('pw').value;
+  const err = document.getElementById('err');
+  const btn = document.getElementById('unlock');
+  if (!password) return err.textContent = 'Password required';
+  
+  btn.disabled = true; btn.textContent = 'Unlocking...';
+  try {
+    const res = await fetch(`/api/scripts/${slug}/unlock`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById('loader-url').textContent = `loadstring(game:HttpGet("${data.loader_url}"))()`;
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('protected').style.display = 'block';
+    } else {
+      err.textContent = data.error === 'wrong password' ? 'Wrong password' : 'Error';
+      btn.disabled = false; btn.textContent = 'Unlock Script';
+    }
+  } catch (e) {
+    err.textContent = 'Network error';
+    btn.disabled = false; btn.textContent = 'Unlock Script';
+  }
+});
+document.getElementById('copy').addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('loader-url').textContent);
+  document.getElementById('copy').textContent = 'COPIED!';
+  setTimeout(() => document.getElementById('copy').textContent = 'COPY', 1500);
+});
+</script>
+</body>
+</html>
